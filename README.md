@@ -12,7 +12,7 @@ I used [tinygo](https://github.com/tinygo-org/tinygo) to build the web version
 ## Build Instructions
 clone recursively with:
  ```
- git clone --recursive https://github.com/phillvance/golang-moving-square.git
+ git clone --recursive https://github.com/phillvancejr/golang-moving-square.git
  ```
 ### Desktop with Minifb
 #### Mac
