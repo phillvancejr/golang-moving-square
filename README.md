@@ -21,6 +21,10 @@ For mac you can use the makefile provided. Minifb uses CMake so you need that in
 make minifb
 make desktop
 ```
+The platform defaults to mac, so if you're on a different unix you should pass the platform and the cmake flags to make minifb, for example
+```
+make minifb platform=linux cmake_flags='-DUSE_WAYLAND_API=OFF'
+```
 For other desktop Os' look at minifb's [build instructions](https://github.com/emoon/minifb#Build-instructions)
 
 #### minifb.go
