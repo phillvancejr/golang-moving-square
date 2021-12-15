@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Move Square</title>
+</head>
+<body>
+<canvas id='go_move_square'></canvas>
+</body>
+<script src='wasm_exec.js'></script>
+<script>
+const move_square_canvas = document.querySelector('#go_move_square')
+const move_square_ctx = move_square_canvas.getContext('2d')
+
+const go = new Go()
+go.importObject.env = Object.assign(go.importObject.env, {
+    'main._clear_screen': (w, h, color_addr, length) => {
+        let color = wasm_str(color_addr, length)
+        move_square_ctx.fillStyle = color
+        move_square_ctx.fillRect(0,0,w, h)
+
+    },
+    'main._fill_rect': (x, y, w, h, color_addr, length) => {
+        let color = wasm_str(color_addr, length)
+        move_square_ctx.fillStyle = color
+        move_square_ctx.fillRect(x,y,w, h)
+    }
+})
+
+const WASM_URL = 'move_square.wasm'
+
+var wasm;
+
+if ('instantiateStreaming' in WebAssembly) {
+	WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).then(function (obj) {
+		wasm = obj.instance;
+		go.run(wasm);
+        main()
+	})
+} else {
+	fetch(WASM_URL).then(resp =>
+		resp.arrayBuffer()
+	).then(bytes =>
+		WebAssembly.instantiate(bytes, go.importObject).then(function (obj) {
+			wasm = obj.instance;
+			go.run(wasm);
+            main()
+		})
+	)
+}
+// TODO input stuff, call wasm.exports.input with the key and pressed bool
+const none  = 0
+const esc   = 1
+const left  = 2
+const up    = 3
+const right = 4
+const down  = 5
+
+window.onkeydown = e => {
+    e.preventDefault()
+    let inkey = none
+    if (e.keyCode == 37) inkey = left
+    else if (e.keyCode == 38) inkey = up
+    else if (e.keyCode == 39) inkey = right
+    else if (e.keyCode == 40) inkey = down
+
+    wasm.exports.input(inkey, true)
+}
+
+window.onkeyup = e => {
+    e.preventDefault()
+    let inkey = none
+    if (e.keyCode == 37) inkey = left
+    if (e.keyCode == 38) inkey = up
+    if (e.keyCode == 39) inkey = right
+    if (e.keyCode == 40) inkey = down
+
+    wasm.exports.input(inkey, false)
+}
+
+// game loop
+function main() {
+    const width  = wasm.exports.get_width();
+    const height = wasm.exports.get_width();
+
+    // set canvas size
+    move_square_canvas.width = width
+    move_square_canvas.height = height
+
+    const draw   = wasm.exports.draw
+    const update = wasm.exports.update
+
+    let last_time = Date.now()
+    function loop() {
+        // calculate delta time
+        let now = Date.now()
+        let dt = (now - last_time) / 100
+        last_time = now
+
+        update(dt)
+        draw()
+        requestAnimationFrame(loop)
+    }
+
+    loop()
+}
+// helper function to get string from wasm
+function wasm_str(addr, length) {
+   let memory = wasm.exports.memory
+   let bytes = memory.buffer.slice(addr, addr + length)
+   return String.fromCharCode.apply(null, new Int8Array(bytes)) 
+}
+</script>
+</html>
