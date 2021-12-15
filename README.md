@@ -6,6 +6,9 @@ I used emoon's [minifb](https://github.com/emoon/minifb) for the desktop version
 
 I used [tinygo](https://github.com/tinygo-org/tinygo) to build the web version
 
+
+![screen-gif](demo.gif)
+
 ## Build Instructions
 clone recursively with:
  ```
