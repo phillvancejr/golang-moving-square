@@ -8,6 +8,7 @@ I used [tinygo](https://github.com/tinygo-org/tinygo) to build the web version
 
 
 ![screen-gif](demo.gif)
+![screen-gif](webdemo.gif)
 
 ## Build Instructions
 clone recursively with:

@@ -3,6 +3,7 @@ default: desktop
 desktop: main.go minifb.go
 	go build
 
+.PHONY: web
 web: main.go web_wasm.go
 	cp web_wasm.go main.go web && \
 	tinygo build -o web/move_square.wasm -target wasm --no-debug ./web
