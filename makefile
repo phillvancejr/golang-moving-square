@@ -36,4 +36,6 @@ clean:
 	if [ -f web/move_square.wasm ]; then rm web/move_square.wasm; fi && \
 	if [ -f web/main.go ]; then rm web/main.go; fi && \
 	if [ -f web/web_wasm.go ]; then rm web/web_wasm.go; fi && \
+	if [ -d deps/$(platform) ]; then rm -rf deps/$(platform); fi && \
+	if [ -d deps/minifb/build ]; then rm -rf deps/minifb/build; fi && \
 	if [ -f server ]; then rm server; fi
