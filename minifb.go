@@ -124,7 +124,7 @@ func main() {
 
 		// calculate delta time
 		now := time.Now().UnixNano() / 1000000
-		delta := float64(now-last_time) / 100.0
+		delta := float64(now-last_time) / 1000.0
 		last_time = now
 
 		// this will be set to false if the esc key is pressed

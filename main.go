@@ -15,7 +15,7 @@ const (
 	width  = 500
 	height = 500
 	size   = 50
-	speed  = 50
+	speed  = 500
 	// Keys
 	// originally used iota but it gave the wrong values in wasm for some reason
 	none  = 0

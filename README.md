@@ -26,7 +26,7 @@ The platform defaults to mac, so if you're on a different unix you should pass t
 ```
 make minifb platform=linux cmake_flags='-DUSE_WAYLAND_API=OFF'
 ```
-For other desktop Os' look at minifb's [build instructions](https://github.com/emoon/minifb#Build-instructions)
+For other desktop OS' look at minifb's [build instructions](https://github.com/emoon/minifb#Build-instructions)
 
 #### minifb.go
 In minifb.go add `#cgo <os> LDFLAGS: -Ldeps/<os> -lminifb` 

@@ -96,7 +96,7 @@ function main() {
     function loop() {
         // calculate delta time
         let now = Date.now()
-        let dt = (now - last_time) / 100
+        let dt = (now - last_time) / 1000
         last_time = now
 
         update(dt)
